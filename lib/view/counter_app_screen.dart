@@ -17,6 +17,7 @@ class _CounterAppScreenState extends State<CounterAppScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: Colors.deepPurple,
         centerTitle: true,
         title: Text(
