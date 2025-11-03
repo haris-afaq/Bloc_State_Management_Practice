@@ -48,6 +48,8 @@ class _SwitchButtonAndSliderState extends State<SwitchButtonAndSlider> {
                   ),
                 ),
                 BlocBuilder<SwitchBloc, SwitchStates>(
+                  buildWhen: (previous, current) =>
+                      previous.isSwitch != current.isSwitch,
                   builder: (context, state) {
                     return Switch(
                       value: state.isSwitch,
@@ -62,19 +64,30 @@ class _SwitchButtonAndSliderState extends State<SwitchButtonAndSlider> {
               ],
             ),
             SizedBox(height: 15),
-            Container(
-              height: 100,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.deepPurple,
-                borderRadius: BorderRadius.circular(10),
-              ),
+            BlocBuilder<SwitchBloc, SwitchStates>(
+              builder: (context, state) {
+                return Container(
+                  height: 100,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.deepPurple.withOpacity(state.slider),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                );
+              },
             ),
             SizedBox(height: 15),
-            Slider(
-              value: 0.4,
-              activeColor: Colors.deepPurple,
-              onChanged: (newValue) {},
+            BlocBuilder<SwitchBloc, SwitchStates>(
+              buildWhen: (previous, curent) => previous.slider != curent.slider,
+              builder: (context, state) {
+                return Slider(
+                  value: state.slider,
+                  activeColor: Colors.deepPurple,
+                  onChanged: (value) {
+                    context.read<SwitchBloc>().add(SliderEvents(slider: value));
+                  },
+                );
+              },
             ),
           ],
         ),

@@ -8,3 +8,11 @@ abstract class SwitchEvents extends Equatable {
 }
 
 class EnableOrDisableNotification extends SwitchEvents {}
+
+// ignore: must_be_immutable
+class SliderEvents extends SwitchEvents {
+  double slider;
+  SliderEvents({required this.slider});
+  @override
+  List<Object> get props => [slider];
+}
