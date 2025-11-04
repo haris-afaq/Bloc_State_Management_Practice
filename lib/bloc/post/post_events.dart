@@ -6,3 +6,9 @@ abstract class PostEvents extends Equatable {
 }
 
 class PostFetched extends PostEvents {}
+
+class SearchItem extends PostEvents {
+  final String stString;
+
+  const SearchItem(this.stString);
+}

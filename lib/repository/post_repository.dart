@@ -17,9 +17,10 @@ class PostRepository {
         return body
             .map(
               (e) => PostModel(
-                postId: e["postId"],
-                email: e["email"],
-                body: e["body"],
+                id: e['id'] as int,
+                postId: e["postId"] as int,
+                email: e["email"] as String,
+                body: e["body"] as String,
               ),
             )
             .toList();

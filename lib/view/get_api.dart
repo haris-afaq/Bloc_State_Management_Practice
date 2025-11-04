@@ -42,24 +42,74 @@ class _GetApiScreenState extends State<GetApiScreen> {
           switch (state.postStatus) {
             case PostStatus.loading:
               {
-                return CircularProgressIndicator();
+                return Center(child: CircularProgressIndicator());
               }
             case PostStatus.success:
               {
-                return ListView.builder(
-                  itemCount: state.postList.length,
-                  itemBuilder: (context, index) {
-                    final item = state.postList[index];
-                    return ListTile(
-                      title: Text(item.email.toString()),
-                      subtitle: Text(item.body.toString()),
-                    );
-                  },
+                return Column(
+                  children: [
+                    SizedBox(height: 15),
+                    TextFormField(
+                      onChanged: (filterKey) {
+                        context.read<PostBloc>().add(SearchItem(filterKey));
+                      },
+                      cursorColor: Colors.deepPurple,
+                      decoration: InputDecoration(
+                        hintText: "Search here...",
+                        suffixIcon: Icon(Icons.search_outlined),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 15),
+                    Expanded(
+                      child: state.searchMessage.isNotEmpty
+                          ? Center(child: Text(state.searchMessage.toString()))
+                          : ListView.builder(
+                              itemCount: state.tempPostList.isEmpty
+                                  ? state.postList.length
+                                  : state.tempPostList.length,
+                              // itemCount: state.postList.length,
+                              itemBuilder: (context, index) {
+                                if (state.tempPostList.isNotEmpty) {
+                                  final item = state.tempPostList[index];
+                                  return Card(
+                                    color: Colors.white,
+                                    elevation: 1.3,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadiusGeometry.circular(5),
+                                    ),
+                                    child: ListTile(
+                                      title: Text(item.email.toString()),
+                                      subtitle: Text(item.body.toString()),
+                                    ),
+                                  );
+                                } else {
+                                  final item = state.postList[index];
+                                  return Card(
+                                    color: Colors.white,
+                                    elevation: 1.3,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadiusGeometry.circular(5),
+                                    ),
+                                    child: ListTile(
+                                      title: Text(item.email.toString()),
+                                      subtitle: Text(item.body.toString()),
+                                    ),
+                                  );
+                                }
+                              },
+                            ),
+                    ),
+                  ],
                 );
               }
             case PostStatus.failure:
               {
-                return Text(state.message.toString());
+                return Center(child: Text(state.message.toString()));
               }
           }
         },
