@@ -1,3 +1,4 @@
+
 import 'package:block_practices/bloc/post/post_events.dart';
 import 'package:block_practices/bloc/post/post_states.dart';
 import 'package:block_practices/models/post_model.dart';
@@ -9,7 +10,6 @@ class PostBloc extends Bloc<PostEvents, PostStates> {
   List<PostModel> tempPostList = [];
 
   PostRepository postRepository = PostRepository();
-
   PostBloc() : super(PostStates()) {
     on<PostFetched>(_fetchPost);
     on<SearchItem>(_filterList);

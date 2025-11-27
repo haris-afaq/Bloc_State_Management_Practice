@@ -12,3 +12,4 @@ class SearchItem extends PostEvents {
 
   const SearchItem(this.stString);
 }
+

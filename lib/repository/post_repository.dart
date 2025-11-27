@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:block_practices/models/post_model.dart';
+import 'package:block_practices/utils/error_msg.dart';
 import 'package:http/http.dart' as http;
 
 class PostRepository {
@@ -25,15 +25,21 @@ class PostRepository {
             )
             .toList();
       } else {
-        throw Exception("Server responded with ${response.statusCode}");
+        throw FetchDataException(
+          "Server responded with ${response.statusCode}",
+        );
+        // throw Exception("Server responded with ${response.statusCode}");
       }
     } on SocketException {
-      throw Exception("Internet connection error");
+      // throw Exception("Internet connection error");
+      throw FetchDataException("Internet connection error");
     } on TimeoutException {
-      throw Exception("Request timeout");
+      throw FetchDataException("Request timeout");
+      // throw Exception("Request timeout");
     } catch (e, st) {
       print(st);
-      throw Exception("Unexpected error: $e");
+      // throw Exception("Unexpected error: $e");
+      throw FetchDataException("Unexpected error: $e");
     }
   }
 
